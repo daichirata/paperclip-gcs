@@ -22,6 +22,7 @@ module Paperclip
           @gcs_metadata       = normalize_style(@options[:gcs_metadata])
           @gcs_permissions    = normalize_style(@options[:gcs_permissions])
           @gcs_storage_class  = normalize_style(@options[:gcs_storage_class])
+          @gcs_cache_control  = normalize_style(@options[:gcs_cache_control])
 
           unless @options[:url].to_s.match(%r{\A:gcs_(alias|path|domain)_url\z}) || @options[:url] == ":asset_host".freeze
             @options[:path] = path_option.gsub(/:url/, @options[:url]).sub(%r{\A:rails_root/public/system}, "".freeze)
@@ -70,6 +71,7 @@ module Paperclip
 
           opts = {
             content_type: file.content_type,
+            cache_control: gcs_cache_control(style),
             encryption_key: gcs_encryption_key,
             acl: gcs_permissions(style),
             storage_class: gcs_storage_class(style),
@@ -141,6 +143,10 @@ module Paperclip
 
       def gcs_storage_class(style = default_style)
         unwrap_proc(@gcs_storage_class[style] || @gcs_storage_class[:default], self, style)
+      end
+
+      def gcs_cache_control(style = default_style)
+        unwrap_proc(@gcs_cache_control[style] || @gcs_cache_control[:default], self, style)
       end
 
       def gcs_metadata(style = default_style)
