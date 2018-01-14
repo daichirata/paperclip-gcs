@@ -180,6 +180,10 @@ Or globally:
 gcs_storage_class: :multi_regional
 ```
 
+### gcs_cache_control
+
+The Cache-Control metadata allows you to control whether and for how long browser and Internet caches are allowed to cache your objects.
+
 ### Interpolates
 
 #### :gcs_alias_url
