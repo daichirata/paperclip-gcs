@@ -122,6 +122,11 @@ module Paperclip
           raise ArgumentError, "missing required :gcs_bucket option"
       end
 
+      # GCS_URL: turn the Paperclip style url into one that google references.
+      def gcs_url(style = :original, include_timestamp = false)
+        "gs:#{self.url(style.to_sym, timestamp: include_timestamp).gsub("storage.googleapis.com/","")}"
+      end # gcs_url
+
       private
 
       def normalize_style(opts)
