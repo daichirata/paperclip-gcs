@@ -61,7 +61,7 @@ module Paperclip
         else
           false
         end
-      rescue Google::Cloud::Error
+      rescue Google::Apis::ClientError
         false
       end
 
@@ -89,8 +89,8 @@ module Paperclip
             log("deleting #{path}")
 
             gcs_bucket.file(path).delete
-          rescue Google::Cloud::Error
-            # Ignore this.
+          rescue Google::Apis::ClientError => e
+            warn("#{e} - cannot delete #{path}")
           end
         end
         @queued_for_delete = []
@@ -100,7 +100,7 @@ module Paperclip
         log("copying #{path(style)} to local file #{local_dest_path}")
 
         gcs_bucket.file(path(style)).download(local_dest_path, encryption_key: gcs_encryption_key)
-      rescue Google::Cloud::Error => e
+      rescue Google::Apis::ClientError => e
         warn("#{e} - cannot copy #{path(style)} to local file #{local_dest_path}")
         false
       end
