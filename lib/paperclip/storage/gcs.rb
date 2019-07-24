@@ -61,8 +61,6 @@ module Paperclip
         else
           false
         end
-      rescue
-        false
       end
 
       def flush_writes
