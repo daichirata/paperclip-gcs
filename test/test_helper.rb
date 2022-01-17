@@ -1,4 +1,4 @@
 $LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
-require "paperclip/gcs"
+require "paperclip/storage/gcs"
 
 require "minitest/autorun"
