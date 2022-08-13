@@ -1,3 +1,5 @@
+require "singleton"
+
 module Paperclip
   module Storage
     module Gcs
