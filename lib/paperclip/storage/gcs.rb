@@ -23,6 +23,8 @@ module Paperclip
           @gcs_permissions    = normalize_style(@options[:gcs_permissions])
           @gcs_storage_class  = normalize_style(@options[:gcs_storage_class])
           @gcs_cache_control  = normalize_style(@options[:gcs_cache_control])
+          @gcs_content_type   = normalize_style(@options[:gcs_content_type])
+          @gcs_content_disposition = normalize_style(@options[:gcs_content_disposition])
 
           unless @options[:url].to_s.match(%r{\A:gcs_(alias|path|domain)_url\z}) || @options[:url] == ":asset_host".freeze
             @options[:path] = path_option.gsub(/:url/, @options[:url]).sub(%r{\A:rails_root/public/system}, "".freeze)
@@ -70,7 +72,8 @@ module Paperclip
           log("saving #{path(style)}")
 
           opts = {
-            content_type: file.content_type,
+            content_type: gcs_content_type(file, style),
+            content_disposition: gcs_content_disposition(style),
             cache_control: gcs_cache_control(style),
             encryption_key: gcs_encryption_key,
             acl: gcs_permissions(style),
@@ -139,6 +142,14 @@ module Paperclip
 
       def gcs_permissions(style = default_style)
         unwrap_proc(@gcs_permissions[style] || @gcs_permissions[:default], self, style)
+      end
+
+      def gcs_content_type(file, style = default_style)
+        unwrap_proc(@gcs_content_type[style] || @gcs_content_type[:default], self, style) || file.content_type
+      end
+
+      def gcs_content_disposition(style = default_style)
+        unwrap_proc(@gcs_content_disposition[style] || @gcs_content_disposition[:default], self, style)
       end
 
       def gcs_storage_class(style = default_style)

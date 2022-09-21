@@ -184,6 +184,14 @@ gcs_storage_class: :multi_regional
 
 The Cache-Control metadata allows you to control whether and for how long browser and Internet caches are allowed to cache your objects.
 
+### gcs_content_disposition
+
+The Content-Disposition metadata allows you to specify the presentation of the object in the browser.
+
+### gcs_content_type
+
+The Content-Type metadata allows you to specify the content type of the object. By default it will use the file content type.
+
 ### Interpolates
 
 #### :gcs_alias_url
