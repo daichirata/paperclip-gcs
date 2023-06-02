@@ -80,7 +80,7 @@ module Paperclip
             storage_class: gcs_storage_class(style),
             metadata: gcs_metadata(style),
           }
-          gcs_bucket.upload_file(file.path, path(style), opts)
+          gcs_bucket.upload_file(file.path, path(style), **opts)
         end
         after_flush_writes
         @queued_for_write = {}

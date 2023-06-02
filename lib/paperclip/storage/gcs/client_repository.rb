@@ -14,7 +14,7 @@ module Paperclip
           clients[config] ||= Google::Cloud.storage(
             config[:project],
             config[:keyfile],
-            config.slice(:scope, :retries, :timeout)
+            **config.slice(:scope, :retries, :timeout)
           )
         end
 
