@@ -170,7 +170,9 @@ module Paperclip
 
       def gcs_client
         @_gcs_client ||= ClientRepository.find(gcs_credentials.slice(:project, :keyfile).merge(
-                                                 @gcs_options.slice(:scope, :retries, :timeout)))
+                                                 @gcs_options.slice(:scope, :retries, :timeout)).merge(
+                                                  @options.slice(:gcs_host_name)
+                                                 ))
       end
 
       def gcs_bucket
