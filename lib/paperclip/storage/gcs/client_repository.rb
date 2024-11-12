@@ -1,3 +1,5 @@
+require "google/cloud/storage"
+
 module Paperclip
   module Storage
     module Gcs
@@ -11,9 +13,10 @@ module Paperclip
         end
 
         def find(config)
-          clients[config] ||= Google::Cloud.storage(
-            config[:project],
-            config[:keyfile],
+          clients[config] ||= Google::Cloud::Storage.new(
+            project_id: config[:project],
+            credentials: config[:keyfile],
+            endpoint: config[:gcs_host_name],
             **config.slice(:scope, :retries, :timeout)
           )
         end
